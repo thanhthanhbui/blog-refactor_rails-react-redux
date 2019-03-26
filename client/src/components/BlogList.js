@@ -38,10 +38,10 @@ class BlogList extends React.Component {
 
     return (
       <Container>
+        <br />
         <Button inverted color='red' onClick={this.toggleForm}>
           { showForm ? <Icon name='close' /> : <Icon name='add' /> }
         </Button>
-        <br />
         <br />
         { showForm ?
           <BlogForm closeForm={this.toggleForm} />
@@ -50,6 +50,7 @@ class BlogList extends React.Component {
             { this.blogs() }
           </Item.Group>
         }
+        <br />
       </Container>
     )
   }
