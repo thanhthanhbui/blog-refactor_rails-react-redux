@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux';
-import { Button, Icon, Header, Container } from 'semantic-ui-react'
+import { Button, Icon, Header, Container, Image } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import BlogForm from './BlogForm'
 import { deleteBlog } from '../reducers/blogs'
@@ -58,6 +58,12 @@ class Blog extends React.Component {
         :
           <div style={styles.div}>
             <Header as='h3' style={{ color: 'royalblue', textDecoration: 'underline', }}>{blog.title}</Header>
+            <Image 
+              style={{ height: '320px', width: '240px' }}
+              src={"http://lorempixel.com/640/480/fashion?" + Math.random()} 
+              alt='Blog'
+            />
+            <br />
             <p style={{ color: 'cornflowerblue' }}>{blog.body}</p>
           </div>
         }

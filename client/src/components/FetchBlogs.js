@@ -5,7 +5,6 @@ import Blogs from './Blogs'
 import Blog from './Blog'
 import { getBlogs, } from '../reducers/blogs'
 import { Loader, Segment, Dimmer, } from 'semantic-ui-react'
-import NoMatch from './NoMatch';
 
 class FetchBlogs extends React.Component {
   state = { loaded: false, }

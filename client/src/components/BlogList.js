@@ -14,12 +14,13 @@ class BlogList extends React.Component {
   }
 
   blogs = () => {
-    const photograph = <Image src="http://lorempixel.com/640/480/fashion" />
-
     return this.props.blogs.map( blog =>
       <Item key={ blog.id }>
-        <Item.Image src={ photograph } />
-
+        <Image 
+          style={{ height: '320px', width: '240px' }}
+          src={"https://loremflickr.com/320/240/paris,girl/all?" + Math.random()} 
+          alt='Blog'
+        />
         <Item.Content verticalAlign='middle'>
           <Item.Header style={{ color: 'firebrick' }}>{ blog.title }</Item.Header>
           <Item.Extra>
@@ -45,7 +46,7 @@ class BlogList extends React.Component {
         { showForm ?
           <BlogForm closeForm={this.toggleForm} />
         :
-          <Item.Group divided>
+          <Item.Group divided style={{ margin: '50px' }}>
             { this.blogs() }
           </Item.Group>
         }
