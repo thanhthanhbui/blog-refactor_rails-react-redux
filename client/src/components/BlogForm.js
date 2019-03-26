@@ -1,9 +1,17 @@
 import React from 'react'
 import { Header, Form, Input } from 'semantic-ui-react'
 import { connect } from 'react-redux'
+import { updateBlog, addBlog } from '../reducers/blogs';
 
 class BlogForm extends React.Component {
-  state = { title: '', body: '', }
+  initialState = { title: '', body: '', }
+
+  state = {...this.initialState}
+
+  componentDidMount() {
+    if (this.props.id)
+      this.setState({ ...this.props, })
+  }
 
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value })
@@ -11,26 +19,27 @@ class BlogForm extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault()
-    const { dispatch, id } = this.props
-    const { title, body } = this.state
-    const blog = { id, title, body, editing: false }
-    dispatch({ type: 'ADD_BLOG', blog, })
-    dispatch({ type: 'INC_ID', })
-    this.props.history.push('/blogs')
-    this.setState({ title: '', body: '', })
+    const { dispatch, closeForm } = this.props
+    const blog = { ...this.state }
+    const func = this.props.id ? updateBlog : addBlog
+    dispatch(func(blog))
+    closeForm()
   }
 
   render() {
-    const { title, body } = this.state
+    const { id, title, body } = this.props
+
     return (
       <div style = {styles.bg}>
         <br />
-        <Header as='h1' style={styles.header}>Add Blog</Header>
+        <Header as='h1' style={styles.header}>
+          { id ? 'Edit Post' : 'Add Post'}
+        </Header>
         <Form style={styles.form} onSubmit={this.handleSubmit}>
           <Input
             name='title'
             placeholder='Title'
-            value={title}
+            defaultValue={title}
             required
             onChange={this.handleChange}
             style={{ width: '100%', }}
@@ -39,12 +48,14 @@ class BlogForm extends React.Component {
           <Input
             name='body'
             placeholder='Body'
-            value={body}
+            defaultValue={body}
             required
             onChange={this.handleChange}
             style={{ height: '100px', width: '100%', }}
           />
-          <Form.Button inverted color='red' style = {styles.btn}>Post</Form.Button>
+          <Form.Button inverted color='red' style = {styles.btn}>
+            { id ? 'Update' : 'Post'}            
+          </Form.Button>
         </Form>
         <br />
         <br />
@@ -73,8 +84,4 @@ const styles = {
   }
 }
 
-const mapStateToProps = (state) => {
-  return { id: state.getId }
-}
-
-export default connect(mapStateToProps)(BlogForm)
+export default connect()(BlogForm)

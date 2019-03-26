@@ -1,22 +1,55 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import Blog from './Blog'
-import EditForm from './EditForm'
+import { Link } from 'react-router-dom'
+import { Container, Image, Item, Button, Icon } from 'semantic-ui-react';
+import BlogForm from './BlogForm'
 
 class BlogList extends React.Component {
+  state = { showForm: false, }
+
+  toggleForm = () => {
+    this.setState( state => {
+      return { showForm: !state.showForm, }
+    })
+  }
+
+  blogs = () => {
+    const photograph = <Image src="http://lorempixel.com/640/480/fashion" />
+
+    return this.props.blogs.map( blog =>
+      <Item key={ blog.id }>
+        <Item.Image src={ photograph } />
+
+        <Item.Content verticalAlign='middle'>
+          <Item.Header style={{ color: 'firebrick' }}>{ blog.title }</Item.Header>
+          <Item.Extra>
+            <Link to={`/blogs/${blog.id}`}>
+              <Button inverted color='google plus' floated='right'>View Post</Button>
+            </Link>
+          </Item.Extra>
+        </Item.Content>
+      </Item>
+    )
+  }
+  
   render() {
-    const { blogs } = this.props
+    const { showForm } = this.state
+
     return (
-      <div>
-        <ul>
-          { blogs.map( blog => (
-            <div key={blog.id}>
-              {blog.editing ? <EditForm blog={blog} key={blog.id} /> :
-              <Blog key={blog.id} blog={blog} /> }
-            </div>
-          ))}
-        </ul>
-        </div>
+      <Container>
+        <Button inverted color='red' onClick={this.toggleForm}>
+          { showForm ? <Icon name='close' /> : <Icon name='add' /> }
+        </Button>
+        <br />
+        <br />
+        { showForm ?
+          <BlogForm closeForm={this.toggleForm} />
+        :
+          <Item.Group divided>
+            { this.blogs() }
+          </Item.Group>
+        }
+      </Container>
     )
   }
 }
